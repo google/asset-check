@@ -1,0 +1,28 @@
+{
+  "name": "asset-check",
+  "version": "0.1.0",
+  "description": "Tool for checking your asset-links.json",
+  "main": "index.js",
+  "bin": {
+    "asset-check": "./run.js"
+  },
+  "scripts": {
+    "test": "mocha"
+  },
+  "author": "Paul Matthews",
+  "license": "SEE LICENSE IN LICENSE.txt",
+  "dependencies": {
+    "colors": "^1.1.2",
+    "commander": "^2.9.0",
+    "jsonschema": "^1.1.1",
+    "urlencode": "^1.1.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/googlesamples/asset-links.git"
+  },
+  "devDependencies": {
+    "chai": "^3.5.0",
+    "mocha": "^3.4.2"
+  }
+}
