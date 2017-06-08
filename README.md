@@ -1,6 +1,8 @@
 # Asset Check
 Check your assetlinks.json file for associations, ensuring you're configured correctly.
 
+*This is not an official Google product.*
+
 ## Install
 Install the node dependencies and link the executable:
 ```
@@ -20,10 +22,10 @@ asset-check -d <url>              # (debug mode) check a url
 
 Or in your install directory:
 ```
-./index.js <filename>             # check a file
-./index.js <url>                  # check a url
+./run.js <filename>             # check a file
+./run.js <url>                  # check a url
 
-./index.js -d <useragent> <url>   # check a url with a specific useragent
+./run.js -d <useragent> <url>   # check a url with a specific useragent
 ```
 
 ### Examples

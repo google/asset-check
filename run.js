@@ -24,7 +24,7 @@ const LOG_DEBUG = ac.LOG_DEBUG;
 
 program
   .version('0.0.1')
-  .description('Check your asset-links.json file')
+  .description('Check your assetlinks.json file')
   .option('-d, --debug', 'Enable debug')
   .option('-u, --user-agent <agent>', 'Specify user agent')
   .parse(process.argv);

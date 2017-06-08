@@ -1,7 +1,7 @@
 {
   "name": "asset-check",
   "version": "0.1.0",
-  "description": "Tool for checking your asset-links.json",
+  "description": "Tool for checking your assetlinks.json",
   "main": "index.js",
   "bin": {
     "asset-check": "./run.js"
@@ -19,7 +19,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git://github.com/googlesamples/asset-links.git"
+    "url": "git://github.com/google/asset-links.git"
   },
   "devDependencies": {
     "chai": "^3.5.0",
