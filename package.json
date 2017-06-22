@@ -19,7 +19,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git://github.com/google/asset-links.git"
+    "url": "git://github.com/google/asset-check.git"
   },
   "devDependencies": {
     "chai": "^3.5.0",
