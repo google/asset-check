@@ -38,6 +38,17 @@ describe('#AssetCheck', function() {
         });
   })
 
+  it('accepts include statements', function() {
+    asset.handleParseJson(
+        getTestFile('include-pass.json'),
+        (data) => {
+          data.should.not.be.null;
+        },
+        (err) => {
+          throw new Error('Should not have failed.');
+        });
+  })
+
   it('rejects invalid json', function() {
     asset.handleParseJson(
         getTestFile('simple-fail.json'),
@@ -75,6 +86,28 @@ describe('#AssetCheck', function() {
   it('rejects unkown namespace from target', function() {
     asset.handleParseJson(
         getTestFile('unkown-target-namespace-fail.json'),
+        (data) => {
+          throw new Error('Should not have passed.');
+        },
+        (err) => {
+          err.should.not.be.null;
+        });
+  })
+
+  it('rejects multiple include statements', function() {
+    asset.handleParseJson(
+        getTestFile('multiple-include-fail.json'),
+        (data) => {
+          throw new Error('Should not have passed.');
+        },
+        (err) => {
+          err.should.not.be.null;
+        });
+  })
+
+  it('rejects mixing include and target statements', function() {
+    asset.handleParseJson(
+        getTestFile('include-target-fail.json'),
         (data) => {
           throw new Error('Should not have passed.');
         },

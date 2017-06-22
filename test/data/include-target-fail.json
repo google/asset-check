@@ -1,0 +1,12 @@
+[{
+    "include": "https://example.com/includedstatements.json"
+  },
+  {
+  "relation": ["delegate_permission/common.handle_all_urls"],
+  "target": {
+    "namespace": "android_app",
+    "package_name": "com.example",
+    "sha256_cert_fingerprints":
+    ["A0:AA:0A:0A:00:0A:00:AA:00:A0:A0:00:00:A0:00:0A:AA:00:A0:AA:00:00:AA:00:00:00:AA:0A:0A:00:AA:00"]
+  }
+}]

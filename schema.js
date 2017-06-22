@@ -18,8 +18,21 @@
 /* JSON Schema Base */
 const SCHEMA_BASE = {
   "id": "/Base",
-  "type": "array",
-  "items": {"$ref": "/BaseEntity"}
+  "oneOf": [
+    {
+      "type": "array",
+      "minItems": 1,
+      "items": { "$ref": "/BaseEntity"},
+      "title": "Relationship Entity",
+    },
+    {
+      "type": "array",
+      "minItems": 1,
+      "maxItems": 1,
+      "items": { "$ref": "/IncludeEntity"},
+      "title": "Include Entity",
+    }
+  ],
 };
 
 /* JSON Schema Base Entity */
@@ -38,6 +51,17 @@ const SCHEMA_ENTITY = {
       ],
       "required": true
     }
+  }
+}
+
+const SCHEMA_INCLUDE = {
+  "id": "/IncludeEntity",
+  "type": "object",
+  "properties": {
+    "include": {
+      "type": "string",
+      "required": true
+    },
   }
 }
 
@@ -92,6 +116,7 @@ const SCHEMA_ANDROID = {
 module.exports.assetlinksSchema = {
   "/Base": SCHEMA_BASE, // The first entry has to be the base schema
   "/BaseEntity": SCHEMA_ENTITY,
+  "/IncludeEntity": SCHEMA_INCLUDE,
   "/RelationEntity": SCHEMA_RELATION,
   "/WebTarget": SCHEMA_WEB,
   "/AndroidTarget": SCHEMA_ANDROID

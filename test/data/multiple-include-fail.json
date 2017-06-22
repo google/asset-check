@@ -1,0 +1,6 @@
+[{
+    "include": "https://example.com/includedstatements.json"
+  },
+  {
+    "include": "https://example.com/includedstatements2.json"
+}]
