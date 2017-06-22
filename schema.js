@@ -23,14 +23,16 @@ const SCHEMA_BASE = {
       "type": "array",
       "minItems": 1,
       "items": { "$ref": "/BaseEntity"},
+      "title": "Relationship Entity",
     },
     {
       "type": "array",
       "minItems": 1,
       "maxItems": 1,
       "items": { "$ref": "/IncludeEntity"},
+      "title": "Include Entity",
     }
-  ]
+  ],
 };
 
 /* JSON Schema Base Entity */

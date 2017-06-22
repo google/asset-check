@@ -169,6 +169,16 @@ class AssetCheck {
   displayAssociations(data) {
     var creds = {'web': [], 'android': []};
     var links = {'web': [], 'android': []};
+    if (data.length == 1 && IncludeEntry.isEntry(data[0])) {
+      try {
+        var entry = new IncludeEntry(data[0]);
+        this.logInfo('# \u2713 Includes File'.green);
+        this.logDebug('## URL: ' + entry.getInclude());
+      } catch (err) {
+        this.err('[entry] ' + err);
+      }
+      return;
+    }
     for (let item of Object.keys(data)) {
       try {
         var entry = new AssetEntry(data[item]);
@@ -354,7 +364,7 @@ class AssetFile {
     try {
       let contents = fs.readFileSync(this.filename);
       if (contents.length > 0) {
-        success(contents);
+        return success(contents);
       }
       err = 'No file contents';
     } catch (e) {
@@ -379,14 +389,10 @@ class AssetEntry {
    */
   constructor(entry) {
     this.data = entry;
-    if (!('relation' in this.data)) {
-      throw Error('No relation defined');
+    if (!AssetEntry.isEntry(entry)) {
+      throw Error('Item is not an AssetEntry');
     }
     this.relation = new AssetRelation(this.data['relation']);
-
-    if (!('target' in this.data)) {
-      throw Error('No target defined');
-    }
     this.target = new AssetTarget(this.data['target']);
   }
 
@@ -404,6 +410,55 @@ class AssetEntry {
    */
   getTarget() {
     return this.target;
+  }
+
+  /**
+   * Check if a entry is an instance of an AssetEntry
+   * @param  {Object}  data the entry to test
+   * @return {Boolean}      true if it's compatible
+   */
+  static isEntry(data) {
+    if (('relation' in data) && ('target' in data)) {
+      return true;
+    }
+    return false;
+  }
+}
+
+/**
+ * A representation of the top level entry that is an include statement.
+ * @type {IncludeEntry}
+ */
+class IncludeEntry {
+
+  /**
+   * [constructor description]
+   * @param  {Object} entry the data to represent
+   * @return {IncludeEntry} the prepared IncludeEntry
+   */
+  constructor(entry) {
+    this.data = entry;
+    if (!IncludeEntry.isEntry(entry)) {
+      throw Error('No include statement defined');
+    }
+    this.include = this.data['include'];
+  }
+
+  /**
+   * Get the include value of the entry
+   * @return string the include value
+   */
+  getInclude() {
+    return this.include;
+  }
+
+  /**
+   * Check if a entry is an instance of an IncludeEntry
+   * @param  {Object}  data the entry to test
+   * @return {Boolean}      true if it's compatible
+   */
+  static isEntry(data) {
+    return ('include' in data);
   }
 }
 
