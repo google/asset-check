@@ -18,6 +18,7 @@ const should = require('chai').should();
 const fs = require('fs');
 const ac = require('../index.js');
 const AssetCheck = ac.AssetCheck;
+const AssetFile = ac.AssetFile;
 const LOG_LEVEL = ac.LOG_SILENT;
 
 var getTestFile = function(filename) {
@@ -115,4 +116,50 @@ describe('#AssetCheck', function() {
           err.should.not.be.null;
         });
   })
-})
+});
+
+describe('#AssetFile', function() {
+  it('allows local filenames', function() {
+    var testData = ['./local-file.txt', 'assetlinks.json',
+      "../../path/to/local/file.json",
+      "../https/www.foo.com/.well-known/assetlinks.json"];
+
+    for (var i in testData) {
+      var testAssetFile = new AssetFile(testData[i]);
+      testAssetFile.getFilename().should.equal(testData[i]);
+    }
+  });
+
+  it('enforces https protocol', function() {
+    var testData = ['http://www.example.com/', 'http://www.google.com',
+      "http://foo.bar"];
+    for (var i in testData) {
+      var testAssetFile = new AssetFile(testData[i]);
+      testAssetFile.getFilename().should.contain("https://");
+      testAssetFile.getFilename().should.not.contain("http://");
+    }
+  });
+
+  it("should rewrite missing paths", function() {
+    var testData = {
+      'https://www.example.com/': 'https://www.example.com/.well-known/assetlinks.json',
+      'https://www.google.com': 'https://www.google.com/.well-known/assetlinks.json',
+      'https://foo.bar': 'https://foo.bar/.well-known/assetlinks.json'};
+    for (var filename in testData) {
+      var testAssetFile = new AssetFile(filename);
+      testAssetFile.getFilename().should.equal(testData[filename]);
+    }
+  });
+
+
+  it("doesn't rewrite absolute paths", function() {
+    var testData = ['https://www.example.com/asset-links.json',
+      'https://www.google.com/path/to/specific/file.json',
+      "https://foo.bar/file.txt"];
+
+    for (var i in testData) {
+      var testAssetFile = new AssetFile(testData[i]);
+      testAssetFile.getFilename().should.equal(testData[i]);
+    }
+  });
+});

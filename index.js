@@ -309,8 +309,8 @@ class AssetFile {
     if (filename.length < 1) {
       throw new Error('Empty filename');
     }
-    this.filename = filename;
-    this.uri = url.parse(filename);
+    this.filename = this._cleanRemoteFilename(filename);
+    this.uri = url.parse(this.filename);
   }
 
   /**
@@ -371,6 +371,32 @@ class AssetFile {
       err = e;
     }
     fail(err);
+  }
+
+  /**
+   * Clean the Remote Filename by checking common locations and ensuring to it's on HTTPS.
+   *
+   * @param {String} the filename to clean
+   * @return {String} the cleaned filename
+   */
+  _cleanRemoteFilename(filename) {
+    var uri = url.parse(filename);
+    if (!uri.hostname) {
+      return filename;
+    }
+    if (uri.protocol != "https") {
+      if (uri.protocol && uri.protocol.length > 0) {
+        filename = filename.substr(uri.protocol.length + 2);
+      }
+      filename = "https://" + filename;
+      uri = url.parse(filename);
+    }
+    if (uri.path.length < 2) {
+
+      filename += (filename.substr(filename.length - 1) != '/') ? '/' : '';
+      filename += ".well-known/assetlinks.json";
+    }
+    return filename;
   }
 }
 
@@ -587,6 +613,7 @@ class AssetTarget {
 }
 
 module.exports.AssetCheck = AssetCheck;
+module.exports.AssetFile = AssetFile;
 module.exports.LOG_SILENT = LOG_LEVELS.SILENT;
 module.exports.LOG_INFO = LOG_LEVELS.INFO;
 module.exports.LOG_DEBUG = LOG_LEVELS.DEBUG;
